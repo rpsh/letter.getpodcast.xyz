@@ -1,0 +1,26 @@
+<div class="section feature">
+  <h2 class="section_title"><span class="number">{{index}}</span>{{title}}</h2>
+  {{#items}}
+  <div class="article">
+    <a class="title_link" target="_blank" href="{{& author.0.rss }}"
+      ><img
+        src="{{& author.0.logo}}"
+        width="80"
+        height="80"
+        alt="{{ author.0.name }}"
+        class="article_pic"
+    /></a>
+    <h3 class="article_title">
+      <a class="title_link" target="_blank" href="{{& author.0.rss }}">{{title}}</a>
+    </h3>
+    <div class="article_content">{{& intro}}</div>
+    {{#author}}
+    <div class="meta">
+      <a class="meta_name" target="_blank" href="{{& rss}}">{{name}}</a>
+      <span class="meta_desc">{{desc}}</span>
+      <a class="meta_link" target="_blank" href="{{& rss}}">{{& rss}}</a>
+    </div>
+    {{/author}}
+  </div>
+  {{/items}}
+</div>

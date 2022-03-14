@@ -1,0 +1,17 @@
+<div class="roam">
+  <h2 class="section_title"><span class="number">{{index}}</span>{{title}}</h2>
+  {{#items}}
+  <div class="roam_item">
+    <div class="roam_title">
+      <div class="roam_dot"></div>
+      <a class="roam_title_link" href="{{& author.rss}}"
+        >{{title}}<span class="roam_desc">{{intro}}</span></a
+      >
+    </div>
+    <div class="roam_source_line">
+      <a class="roam_source" href="{{& author.rss}}">{{author.name}}</a>
+      <a href="{{& author.rss}}" class="roam_source_link">{{& author.rss}}</a>
+    </div>
+  </div>
+  {{/items}}
+</div>

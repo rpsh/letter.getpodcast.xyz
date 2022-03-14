@@ -1,0 +1,35 @@
+{
+  "name": "letter.getpodcast.xyz",
+  "version": "1.0.0",
+  "description": "任听播客通讯",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rpsh/letter.getpodcast.xyz.git"
+  },
+  "jshintConfig": {
+    "node": true,
+    "esversion": 9
+  },
+  "keywords": [
+    "podcast",
+    "newsletter"
+  ],
+  "author": "rpsh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rpsh/letter.getpodcast.xyz/issues"
+  },
+  "homepage": "https://github.com/rpsh/letter.getpodcast.xyz#readme",
+  "dependencies": {
+    "html-minifier": "^4.0.0",
+    "inline-css": "^3.0.0",
+    "mustache": "^4.2.0"
+  },
+  "devDependencies": {
+    "yargs": "^15.4.1"
+  }
+}

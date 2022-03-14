@@ -1,0 +1,16 @@
+<div class="newbie">
+  <h2 class="section_title"><span class="number">{{index}}</span>{{title}}</h2>
+  {{#items}}
+  <div class="newbie_item">
+    <div class="newbie_title">
+      <div class="newbie_dot"></div>
+      <a class="newbie_title_link" href="{{& author.rss}}"
+        >{{title}}<span class="newbie_desc">{{intro}}</span></a
+      >
+    </div>
+    <div class="newbie_source_line">
+      <a href="{{& rss}}" class="newbie_source_link">{{& rss}}</a>
+    </div>
+  </div>
+  {{/items}}
+</div>

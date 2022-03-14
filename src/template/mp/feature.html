@@ -1,0 +1,25 @@
+<h2 class="section_title"><span class="number">{{index}}</span>{{title}}</h2>
+
+{{#items}}
+<p class="clear feature_clear"><br /></p>
+<p class="pic_line">
+  <img
+    src="{{& author.0.pic}}"
+    alt="{{author.0.name}}"
+    class="article_pic"
+    data-w="313"
+    data-ratio="1"
+  />
+</p>
+<h3 class="article_title">
+  <span class="title_link">{{title}}</span>
+</h3>
+<p class="article_content">{{& intro}}</p>
+{{#author}}
+<p class="meta">
+  <span class="meta_name">{{name}}</span><span class="meta_desc">{{desc}}</span><wbr /><span
+    class="meta_link"
+    >{{& rss}}</span
+  >
+</p>
+{{/author}} {{/items}}

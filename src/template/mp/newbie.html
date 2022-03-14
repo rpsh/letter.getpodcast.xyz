@@ -1,0 +1,13 @@
+<h2 class="section_title"><span class="number">{{index}}</span>{{title}}</h2>
+{{#items}}
+<p class="peek_title">
+  <span class="peek_dot"></span>
+  <span class="peek_title_link"
+    ><span class="peek_source">{{title}}</span>
+    <span class="peek_desc">{{intro}}</span>
+  </span>
+</p>
+<p class="peek_source_line">
+  <span class="peek_source_link">{{& rss}}</span>
+</p>
+{{/items}}
