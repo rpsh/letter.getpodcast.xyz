@@ -4,7 +4,8 @@
   "description": "任听播客通讯",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node ./src/index.js",
+    "readme": "node ./src/readme.js"
   },
   "repository": {
     "type": "git",

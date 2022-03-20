@@ -6,7 +6,7 @@ const inlineCss = require('inline-css');
 const minify = require('html-minifier').minify;
 const Mustache = require('mustache');
 
-const datebase = require('./src/datebase.json');
+const datebase = require('./datebase.json');
 
 const argv = yargs.argv;
 const volNum = argv.v || argv.vol || argv._[0];
@@ -18,17 +18,17 @@ if (!volNum) {
 
 const template = {
   letter: {
-    css: fs.readFileSync('./src/letter.css', 'utf8'),
+    css: fs.readFileSync(path.join(__dirname, './style/letter.css'), 'utf8'),
     ...getTemplates('letter'),
   },
   mp: {
-    css: fs.readFileSync('./src/mp.css', 'utf8'),
+    css: fs.readFileSync(path.join(__dirname, './style/mp.css'), 'utf8'),
     ...getTemplates('mp'),
   },
 };
 
 function getTemplates(type) {
-  const dir = path.join(__dirname, `./src/template/${type}`);
+  const dir = path.join(__dirname, `./template/${type}`);
   const dirs = fs.readdirSync(dir);
   const template = {};
 
@@ -43,7 +43,7 @@ function getTemplates(type) {
 }
 
 function getFile(volNum) {
-  const fileName = path.join(__dirname, './letters/' + volNum + '.md');
+  const fileName = path.join(__dirname, '../letters/' + volNum + '.md');
   const file = fs.readFileSync(fileName, 'utf8');
   return file;
 }
