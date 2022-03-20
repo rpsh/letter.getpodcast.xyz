@@ -3,6 +3,7 @@
 ## 订阅任听播客通讯
 
 - 邮件订阅： [https://letter.getpodcast.xyz/](https://letter.getpodcast.xyz/)
+- RSS订阅： [https://letter.getpodcast.xyz/feed.xml](https://letter.getpodcast.xyz/feed.xml)
 - 公众号订阅：  
   ![](https://i.loli.net/2019/12/13/4SU2y7NWEgv5lwJ.jpg)
 
