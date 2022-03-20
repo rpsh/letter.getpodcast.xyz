@@ -10,10 +10,10 @@ function getVols() {
       const file = fs.readFileSync(path.join('./letters', item), 'utf8');
       const lines = file.split('\n');
 
-      vols[lines[3].replace(/\_/g, '')] = {
-        title: lines[0].replace('# 任听播客通讯 ', ''),
-        date: lines[3].replace(/\_/g, ''),
-        desc: lines[1],
+      vols[lines[4].replace(/Date:\s+/, '')] = {
+        title: lines[1].replace('Title:  任听播客通讯 ', ''),
+        date: lines[4].replace(/Date:\s+/, ''),
+        desc: lines[2].replace(/Intro:\s+/, ''),
         path: `./letters/${item}`,
       };
     }

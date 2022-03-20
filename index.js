@@ -81,26 +81,28 @@ function parseMd(options) {
   };
 
   mdLines.forEach((item, index) => {
-    if (/^#\s/.test(item) && flag === 0) {
-      flag = 'header';
-      data.header.title = item.replace(/^#\s/, '');
-    } else if (index === 1) {
-      data.header.desc = item.replace(/\\$/, '');
+    if (index === 0 || index === 1) {
+      return true;
     } else if (index === 2) {
-      data.header.readTime = item.replace(/\_/g, '');
+      data.header.desc = item.replace(/^Intro:\s+/, '').trim();
+    } else if (index === 3) {
+      data.header.readTime = item.replace(/^Read:\s+/g, '').trim();
+    } else if (/^#\s/.test(item) && flag === 0) {
+      flag = 'header';
+      data.header.title = item.replace(/^#\s/, '').trim();
     } else if (/^##\s/.test(item) && flag === 'header') {
       flag = 'feature';
-      data.feature.title = item.replace(/^##\s/, '');
+      data.feature.title = item.replace(/^##\s/, '').trim();
     } else if (/^###\s/.test(item) && flag === 'feature') {
       data.feature.items.push({
-        title: item.replace(/^###\s/, ''),
+        title: item.replace(/^###\s/, '').trim(),
       });
     } else if (item && !/^[#|*|-|\s]/.test(item) && flag === 'feature') {
       const featureItem = data.feature.items[data.feature.items.length - 1];
       if (featureItem.intro) {
-        featureItem.intro += '<br/>' + formatLink(item);
+        featureItem.intro += '<br/>' + formatLink(item.trim());
       } else {
-        featureItem.intro = formatLink(item);
+        featureItem.intro = formatLink(item.trim());
       }
     } else if (/^####\s/.test(item) && flag === 'feature') {
       const featureItem = data.feature.items[data.feature.items.length - 1];
@@ -109,7 +111,7 @@ function parseMd(options) {
         featureItem.author = [];
       }
       featureItem.author.push({
-        name: title,
+        name: title.trim(),
         rss: item.match(/\((.*)\)/)[1],
         desc: item.match(/\_([^_]*)\_/) && item.match(/\_([^_]*)\_/)[1],
         logo: datebase[title] && datebase[title].logo,

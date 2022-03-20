@@ -1,0 +1,6 @@
+{
+  "[markdown]":{
+    "files.trimTrailingWhitespace": false,
+  },
+  "gitlens.codeLens.enabled": false
+}
