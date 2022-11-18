@@ -19,6 +19,11 @@
     "logo": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts123/v4/20/b9/cd/20b9cda9-c044-2694-cd27-719fd0f39b8d/mza_2392894938697307665.jpg/313x0w.jpg",
     "pic": "https://mmbiz.qpic.cn/mmbiz_jpg/0BW5ibaHqngHbiaTblECTL3Hnpq1cvjD15M1UBcbC0EWvxACuP5Rcd0g6SDz70YfGCOldNNAdkCqB3JUMBMjRPQQ/0?wx_fmt=jpeg"
   },
+  "北方公园NorthPark": {
+    "link": "http://rss.lizhi.fm/rss/100588506.xml",
+    "logo": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts123/v4/20/b9/cd/20b9cda9-c044-2694-cd27-719fd0f39b8d/mza_2392894938697307665.jpg/313x0w.jpg",
+    "pic": "https://mmbiz.qpic.cn/mmbiz_jpg/0BW5ibaHqngHbiaTblECTL3Hnpq1cvjD15M1UBcbC0EWvxACuP5Rcd0g6SDz70YfGCOldNNAdkCqB3JUMBMjRPQQ/0?wx_fmt=jpeg"
+  },
   "轶君连线—全球疫情说": {
     "link": "https://getpodcast.xyz/data/qingting/347138.xml",
     "logo": "https://pic.qingting.fm/device/8703b94fadfc45239c6d127b4276cdef/1583231520541_Cv9586dT.jpeg!200",
@@ -340,7 +345,17 @@
   },
   "宇宙牌电饭锅": {
     "link": "https://feeds.acast.com/public/shows/dongdongqiang",
-    "logo": "https://s2.loli.net/2022/03/10/pglyxhwiJT2RjN6.jpg",
+    "logo": "https://is4-ssl.mzstatic.com/image/thumb/Podcasts112/v4/fe/94/01/fe9401ce-de41-56df-4c2b-37a94d814c8f/mza_176056584607946606.jpeg/300x0w.jpg",
     "pic": "https://mmbiz.qpic.cn/mmbiz_jpg/0BW5ibaHqngGJJ0ajDXodmRX8cAXQYfHXiaGXw0wibI1U0FfWdEjibbGOyoLm03OK1JA0x6tvUqFQWR2yUfJA30Pbw/0?wx_fmt=jpeg"
+  },
+  "黑水公园": {
+    "link": "https://www.ximalaya.com/album/3558668.xml",
+    "logo": "https://is3-ssl.mzstatic.com/image/thumb/Podcasts115/v4/f1/8b/2e/f18b2e09-c71e-dc02-5dbe-656e372c4f4d/mza_11799986174413922063.jpg/300x0w.jpg",
+    "pic": "https://mmbiz.qpic.cn/mmbiz_jpg/0BW5ibaHqngGyCeKJ49BYYO6KmKC5RNKRCY4ZJ43BTD9HKqCuZibyNZ7PRI66eQYz1zFfAJZ8JbrBibgP2RWCEFIA/0?wx_fmt=jpeg"
+  },
+  "美西螈与东方巨龙": {
+    "link": "https://anchor.fm/s/23c71f28/podcast/rss",
+    "logo": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/f0/8f/e1/f08fe1c0-ce54-7e3c-f3a9-29477b79ea1c/mza_16414869818666974769.jpg/300x0w.jpg",
+    "pic": "https://mmbiz.qpic.cn/mmbiz_jpg/0BW5ibaHqngGyCeKJ49BYYO6KmKC5RNKREXxBLtHaIdiaZOLjhiasKfnOvCpHQ8aYwuyQf7lmKUWqU3lowTt7gVkw/0?wx_fmt=jpeg"
   }
 }

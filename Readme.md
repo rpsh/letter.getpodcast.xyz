@@ -1,5 +1,5 @@
 # 任听播客通讯
-![任听播客通讯](https://i.loli.net/2019/05/26/5cea3ae146d2d43108.png)
+![任听播客通讯](https://letter.getpodcast.xyz/img/logo.png)
 
 任听播客通讯是一份~~双周~~（不定期）更新的邮件通讯，由 任平生、JW 分享他们这段时间听到有意思的播客内容。
 
@@ -8,6 +8,7 @@
 
 | 期数            | 发送日期      | 导语             |
 | :------------- | :--------- | :---------------- |
+| [Vol.038：TA 们聊得比我们看得多](./letters/038.md) | 2022-11-18 | 🙇‍♂️ 对不起，我们真的没有停更 |
 | [Vol.037](./letters/037.md) | 2022-03-11 | 🧎‍♂️ 对不起，已经不能用拖更来形容我们的行为了 |
 | [Vol.036：看理想特刊](./letters/036.md) | 2021-12-23 | 🎧 没更新的两个月我们听了什么 |
 | [Vol.035](./letters/035.md) | 2021-10-25 | 🤖 打破次元 |
@@ -53,14 +54,14 @@
 - 邮件订阅： [https://letter.getpodcast.xyz/](https://letter.getpodcast.xyz/)
 - RSS订阅： [https://letter.getpodcast.xyz/feed.xml](https://letter.getpodcast.xyz/feed.xml)
 - 公众号订阅：  
-  ![](https://i.loli.net/2019/12/13/4SU2y7NWEgv5lwJ.jpg)
+  <img src="https://getpodcast.xyz/img/gzh.jpg" width="200" />
 
 
 ## 赞赏支持
 赞赏时请备注你的Email
 
 - 微信：  
-  ![](https://getpodcast.xyz/src/img/wx-zs.png)
+  <img src="https://getpodcast.xyz/src/img/wx-zs.png" width="200" />
 - 支付宝：  
-  ![](https://getpodcast.xyz/src/img/zfb-zs.png)
+  <img src="https://getpodcast.xyz/src/img/zfb-zs.png" width="200" />
 - Paypal: renpingshengx@gmail.com

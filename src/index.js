@@ -66,18 +66,7 @@ function parseMd(options) {
     header: {
       volNum,
     },
-    feature: {
-      index: '01',
-      items: [],
-    },
-    roam: {
-      index: '02',
-      items: [],
-    },
-    newbie: {
-      index: '03',
-      items: [],
-    },
+    content: [],
   };
 
   mdLines.forEach((item, index) => {
@@ -88,24 +77,54 @@ function parseMd(options) {
     } else if (index === 3) {
       data.header.readTime = item.replace(/^Read:\s+/g, '').trim();
     } else if (/^#\s/.test(item) && flag === 0) {
-      flag = 'header';
+      flag = 1;
       data.header.title = item.replace(/^#\s/, '').trim();
-    } else if (/^##\s/.test(item) && flag === 'header') {
+    } else if (/^##\s随便听听/.test(item)) {
+      flag = 'roam';
+      data.content.push({
+        title: item.replace(/^##\s/, '').trim(),
+        items: [],
+        type: 'roam',
+        index: `${data.content.length + 1}`.padStart(2, '0'),
+      });
+    } else if (/^##\s播客新声/.test(item)) {
+      flag = 'newbie';
+      data.content.push({
+        title: item.replace(/^##\s/, '').trim(),
+        items: [],
+        type: 'newbie',
+        index: `${data.content.length + 1}`.padStart(2, '0'),
+      });
+    } else if (/^##\s/.test(item) && (flag === 1 || flag === 'feature')) {
+      data.content.push({
+        title: item.replace(/^##\s/, '').trim(),
+        items: [],
+        type: 'feature',
+        index: `${data.content.length + 1}`.padStart(2, '0'),
+      });
+    } else if (item && !/^[#|*|-|\s|!]/.test(item) && flag === 1) {
+      const featureItem = data.content[data.content.length - 1];
+      if (featureItem.intro) {
+        featureItem.intro += '<br/>' + formatLink(item.trim());
+      } else {
+        featureItem.intro = item.trim();
+      }
+    } else if (/^###\s/.test(item) && (flag === 1 || flag === 'feature')) {
       flag = 'feature';
-      data.feature.title = item.replace(/^##\s/, '').trim();
-    } else if (/^###\s/.test(item) && flag === 'feature') {
-      data.feature.items.push({
+      const featureItem = data.content[data.content.length - 1];
+      featureItem.items.push({
         title: item.replace(/^###\s/, '').trim(),
       });
     } else if (item && !/^[#|*|-|\s]/.test(item) && flag === 'feature') {
-      const featureItem = data.feature.items[data.feature.items.length - 1];
+      const feature = data.content[data.content.length - 1].items;
+      const featureItem = feature[feature.length - 1];
       if (featureItem.intro) {
         featureItem.intro += '<br/>' + formatLink(item.trim());
       } else {
         featureItem.intro = formatLink(item.trim());
       }
     } else if (/^####\s/.test(item) && flag === 'feature') {
-      const featureItem = data.feature.items[data.feature.items.length - 1];
+      const featureItem = data.content[data.content.length - 1];
       const title = item.match(/\[(.*)\]/)[1];
       if (!featureItem.author) {
         featureItem.author = [];
@@ -117,32 +136,30 @@ function parseMd(options) {
         logo: datebase[title] && datebase[title].logo,
         pic: datebase[title] && datebase[title].pic,
       });
-    } else if (/^##\s/.test(item) && flag === 'feature') {
-      flag = 'roam';
-      data.roam.title = item.replace(/^##\s/, '');
     } else if (/^\*\s/.test(item) && flag === 'roam') {
-      data.roam.items.push({
+      const roam = data.content[data.content.length - 1];
+      roam.items.push({
         title:
           (item.match(/\*\s([^_]*)\_/) && item.match(/\*\s([^_]*)\_/)[1]) ||
           item.replace(/^\*\s/, ''),
-        intro: (item.match(/\_([^_]*)\_/) && item.match(/\_([^_]*)\_/)[1]) || '',
+        intro:
+          (item.match(/\_([^_]*)\_/) && item.match(/\_([^_]*)\_/)[1]) || '',
       });
     } else if (/^\s\s####/.test(item) && flag === 'roam') {
-      const roamItem = data.roam.items[data.roam.items.length - 1];
+      const roam = data.content[data.content.length - 1];
+      const roamItem = roam.items[roam.items.length - 1];
       roamItem.author = {
         name: item.match(/\[(.*)\]/)[1],
         rss: item.match(/\((.*)\)/)[1],
       };
-    } else if (/^##\s/.test(item) && flag === 'roam') {
-      flag = 'newbie';
-      data.newbie.title = item.replace(/^##\s/, '');
     } else if (/^\*\s/.test(item) && flag === 'newbie') {
-      data.newbie.items.push({
+      data.content[data.content.length - 1].items.push({
         title: item.match(/\*\s([^_]*)\_/)[1],
         intro: item.match(/\_([^_]*)\_/)[1],
       });
     } else if (/^\s\s/.test(item) && flag === 'newbie') {
-      data.newbie.items[data.newbie.items.length - 1].rss = item.replace(/^\s\s/, '');
+      const newbie = data.content[data.content.length - 1];
+      newbie.items[newbie.items.length - 1].rss = item.replace(/^\s\s/, '');
     }
   });
 
@@ -152,24 +169,28 @@ function parseMd(options) {
 function generateHtml(options) {
   const { type, data } = options;
   const gap =
-    type === 'mp' ? `<p class="gap_line"><span>.</span></p>` : '<div class="gap_line"></div>';
+    type === 'mp'
+      ? `<p class="gap_line"><span>.</span></p>`
+      : '<div class="gap_line"></div>';
 
   let html = `<style>${template[type].css}</style>`;
   html += `<div class="content">`;
   html += Mustache.render(template[type].header, data.header);
-  html += Mustache.render(template[type].feature, data.feature);
-  html += gap;
-  html += Mustache.render(template[type].roam, data.roam);
-  html += gap;
-  html += Mustache.render(template[type].newbie, data.newbie);
-  html += gap;
+  data.content.forEach(item => {
+    const t = item.type;
+    html += Mustache.render(template[type][t], item);
+    html += gap;
+  });
+  const num = data.content.length + 1;
   if (type === 'mp') {
     html += template[type].ad;
     html += gap;
-    html += Mustache.render(template[type].shortcut, { index: '04' });
+    html += Mustache.render(template[type].shortcut, { index: `${num}`.padStart(2, '0') });
     html += gap;
   }
-  html += Mustache.render(template[type].side, { index: type === 'mp' ? '05' : '04' });
+  html += Mustache.render(template[type].side, {
+    index: type === 'mp' ? `${num + 1}`.padStart(2, '0') : `${num}`.padStart(2, '0'),
+  });
   html += template[type].footer;
   html += `</div>`;
 
@@ -189,14 +210,20 @@ async function writeFile(options) {
   const minLetterHtml = await minifyHtml(html.letter);
   const minMpHtml = await minifyHtml(html.mp);
 
-  if (!fs.existsSync(path.join(__dirname, 'dist'))) {
-    fs.mkdirSync(path.join(__dirname, 'dist'));
+  const dist = path.join(__dirname, '../dist');
+
+  if (!fs.existsSync(dist)) {
+    fs.mkdirSync(dist);
   }
 
-  fs.writeFileSync(`dist/letter-${volNum}.html`, html.letter, 'utf8');
-  fs.writeFileSync(`dist/letter-${volNum}.min.html`, minLetterHtml, 'utf8');
-  fs.writeFileSync(`dist/mp-${volNum}.html`, html.mp, 'utf8');
-  fs.writeFileSync(`dist/mp-${volNum}.min.html`, adjustMpHtml(minMpHtml), 'utf8');
+  fs.writeFileSync(path.join(dist, `./letter-${volNum}.html`), html.letter, 'utf8');
+  fs.writeFileSync(path.join(dist, `./letter-${volNum}.min.html`), minLetterHtml, 'utf8');
+  fs.writeFileSync(path.join(dist, `./mp-${volNum}.html`), html.mp, 'utf8');
+  fs.writeFileSync(
+    path.join(dist, `./mp-${volNum}.min.html`),
+    adjustMpHtml(minMpHtml),
+    'utf8'
+  );
 }
 
 async function minifyHtml(html) {

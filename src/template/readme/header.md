@@ -1,5 +1,5 @@
 # 任听播客通讯
-![任听播客通讯](https://i.loli.net/2019/05/26/5cea3ae146d2d43108.png)
+![任听播客通讯](https://letter.getpodcast.xyz/img/logo.png)
 
 任听播客通讯是一份~~双周~~（不定期）更新的邮件通讯，由 任平生、JW 分享他们这段时间听到有意思的播客内容。
 

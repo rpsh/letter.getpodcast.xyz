@@ -103,6 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
+# macOS cache
+.DS_Store
+
 # no lock file
 package-lock.json
 yarn-lock.log
