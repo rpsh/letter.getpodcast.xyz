@@ -6,7 +6,8 @@ const inlineCss = require('inline-css');
 const minify = require('html-minifier').minify;
 const Mustache = require('mustache');
 
-const datebase = require('./datebase.json');
+const database = require('./database.json');
+const dataMp = require('./data-mp.json');
 
 const argv = yargs.argv;
 const volNum = argv.v || argv.vol || argv._[0];
@@ -65,11 +66,19 @@ function parseMd(options) {
   const data = {
     header: {
       volNum,
+      mpPic:
+        (dataMp[volNum] && dataMp[volNum].pic) ||
+        `https://letter.getpodcast.xyz/img/vol_${volNum}_small.png`,
     },
     content: [],
   };
 
   mdLines.forEach((item, index) => {
+    const contentItem = data.content[data.content.length - 1];
+    let lastItem;
+    if (contentItem && contentItem.items && contentItem.items.length) {
+      lastItem = contentItem.items[contentItem.items.length - 1];
+    }
     if (index === 0 || index === 1) {
       return true;
     } else if (index === 2) {
@@ -103,42 +112,39 @@ function parseMd(options) {
         index: `${data.content.length + 1}`.padStart(2, '0'),
       });
     } else if (item && !/^[#|*|-|\s|!]/.test(item) && flag === 1) {
-      const featureItem = data.content[data.content.length - 1];
-      if (featureItem.intro) {
-        featureItem.intro += '<br/>' + formatLink(item.trim());
+      if (contentItem.intro) {
+        contentItem.intro += '<br/>' + formatLink(item.trim());
       } else {
-        featureItem.intro = item.trim();
+        contentItem.intro = item.trim();
       }
     } else if (/^###\s/.test(item) && (flag === 1 || flag === 'feature')) {
       flag = 'feature';
-      const featureItem = data.content[data.content.length - 1];
-      featureItem.items.push({
+      contentItem.items.push({
         title: item.replace(/^###\s/, '').trim(),
       });
     } else if (item && !/^[#|*|-|\s]/.test(item) && flag === 'feature') {
-      const feature = data.content[data.content.length - 1].items;
-      const featureItem = feature[feature.length - 1];
-      if (featureItem.intro) {
-        featureItem.intro += '<br/>' + formatLink(item.trim());
+      if (lastItem && lastItem.intro) {
+        lastItem.intro += '<br/>' + formatLink(item.trim());
+      } else if (lastItem) {
+        lastItem.intro = formatLink(item.trim());
       } else {
-        featureItem.intro = formatLink(item.trim());
+        contentItem.intro = formatLink(item.trim());
       }
     } else if (/^####\s/.test(item) && flag === 'feature') {
-      const featureItem = data.content[data.content.length - 1];
       const title = item.match(/\[(.*)\]/)[1];
-      if (!featureItem.author) {
-        featureItem.author = [];
+      if (!lastItem.author) {
+        lastItem.author = [];
       }
-      featureItem.author.push({
+      lastItem.author.push({
         name: title.trim(),
         rss: item.match(/\((.*)\)/)[1],
         desc: item.match(/\_([^_]*)\_/) && item.match(/\_([^_]*)\_/)[1],
-        logo: datebase[title] && datebase[title].logo,
-        pic: datebase[title] && datebase[title].pic,
+        logo: database[title] && database[title].logo,
+        pic: database[title] && database[title].pic,
       });
+      // console.log(JSON.stringify(data,null, 2));
     } else if (/^\*\s/.test(item) && flag === 'roam') {
-      const roam = data.content[data.content.length - 1];
-      roam.items.push({
+      contentItem.items.push({
         title:
           (item.match(/\*\s([^_]*)\_/) && item.match(/\*\s([^_]*)\_/)[1]) ||
           item.replace(/^\*\s/, ''),
@@ -146,20 +152,17 @@ function parseMd(options) {
           (item.match(/\_([^_]*)\_/) && item.match(/\_([^_]*)\_/)[1]) || '',
       });
     } else if (/^\s\s####/.test(item) && flag === 'roam') {
-      const roam = data.content[data.content.length - 1];
-      const roamItem = roam.items[roam.items.length - 1];
-      roamItem.author = {
+      lastItem.author = {
         name: item.match(/\[(.*)\]/)[1],
         rss: item.match(/\((.*)\)/)[1],
       };
     } else if (/^\*\s/.test(item) && flag === 'newbie') {
-      data.content[data.content.length - 1].items.push({
+      contentItem.items.push({
         title: item.match(/\*\s([^_]*)\_/)[1],
         intro: item.match(/\_([^_]*)\_/)[1],
       });
     } else if (/^\s\s/.test(item) && flag === 'newbie') {
-      const newbie = data.content[data.content.length - 1];
-      newbie.items[newbie.items.length - 1].rss = item.replace(/^\s\s/, '');
+      lastItem.rss = item.replace(/^\s\s/, '');
     }
   });
 
@@ -176,7 +179,7 @@ function generateHtml(options) {
   let html = `<style>${template[type].css}</style>`;
   html += `<div class="content">`;
   html += Mustache.render(template[type].header, data.header);
-  data.content.forEach(item => {
+  data.content.forEach((item) => {
     const t = item.type;
     html += Mustache.render(template[type][t], item);
     html += gap;
@@ -185,11 +188,14 @@ function generateHtml(options) {
   if (type === 'mp') {
     html += template[type].ad;
     html += gap;
-    html += Mustache.render(template[type].shortcut, { index: `${num}`.padStart(2, '0') });
+    html += Mustache.render(template[type].shortcut, {
+      index: `${num}`.padStart(2, '0'),
+    });
     html += gap;
   }
   html += Mustache.render(template[type].side, {
-    index: type === 'mp' ? `${num + 1}`.padStart(2, '0') : `${num}`.padStart(2, '0'),
+    index:
+      type === 'mp' ? `${num + 1}`.padStart(2, '0') : `${num}`.padStart(2, '0'),
   });
   html += template[type].footer;
   html += `</div>`;
@@ -216,11 +222,19 @@ async function writeFile(options) {
     fs.mkdirSync(dist);
   }
 
-  fs.writeFileSync(path.join(dist, `./letter-${volNum}.html`), html.letter, 'utf8');
-  fs.writeFileSync(path.join(dist, `./letter-${volNum}.min.html`), minLetterHtml, 'utf8');
-  fs.writeFileSync(path.join(dist, `./mp-${volNum}.html`), html.mp, 'utf8');
   fs.writeFileSync(
-    path.join(dist, `./mp-${volNum}.min.html`),
+    path.join(dist, `./${volNum}-letter.html`),
+    html.letter,
+    'utf8'
+  );
+  fs.writeFileSync(
+    path.join(dist, `./${volNum}-letter.min.html`),
+    minLetterHtml,
+    'utf8'
+  );
+  fs.writeFileSync(path.join(dist, `./${volNum}-mp.html`), html.mp, 'utf8');
+  fs.writeFileSync(
+    path.join(dist, `./${volNum}-mp.min.html`),
     adjustMpHtml(minMpHtml),
     'utf8'
   );

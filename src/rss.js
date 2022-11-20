@@ -30,7 +30,10 @@ function getVols() {
       const mdDate = md(file, {
         baseUrl: 'https://letter.getpodcast.xyz/',
       });
-      const url = `https://letter.getpodcast.xyz/letters/${item.replace(/\.md$/, '')}.html`;
+      const url = `https://letter.getpodcast.xyz/letters/${item.replace(
+        /\.md$/,
+        ''
+      )}.html`;
 
       vols[+new Date(mdDate.meta.Date)] = {
         title: mdDate.meta.Title,
@@ -38,7 +41,10 @@ function getVols() {
         link: url,
         date: mdDate.meta.Date,
         image: mdDate.meta.Poster
-          ? `https://letter.getpodcast.xyz/img/vol_${item.replace(/\.md$/, '')}_small.png`
+          ? `https://letter.getpodcast.xyz/img/vol_${item.replace(
+              /\.md$/,
+              ''
+            )}_small.png`
           : 'https://letter.getpodcast.xyz/img/logo.png',
         description: mdDate.meta.Intro,
         read: mdDate.meta.Read,
@@ -59,6 +65,7 @@ function getVols() {
 }
 
 function generateRSS(vols) {
+  feedConfig.updated = vols[Object.keys(vols)[0]].date;
   const feed = new Feed(feedConfig);
 
   Object.keys(vols).forEach((key) => {
