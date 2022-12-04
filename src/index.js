@@ -1,3 +1,11 @@
+/*
+ * @Author: rpsh
+ * @Date: 2022-11-16 21:13:58
+ * @LastEditors: rpsh
+ * @LastEditTime: 2022-12-04 23:56:26
+ * @FilePath: /letter.getpodcast.xyz/src/index.js
+ * @Description: md 转通讯模版 html
+ */
 const fs = require('fs');
 const path = require('path');
 
@@ -88,7 +96,12 @@ function parseMd(options) {
     } else if (/^#\s/.test(item) && flag === 0) {
       flag = 1;
       data.header.title = item.replace(/^#\s/, '').trim();
-    } else if (/^##\s随便听听/.test(item)) {
+    } else if (/^<!-- roam -->/.test(item)) {
+      flag = 'roamComment';
+    } else if (
+      /^##\s随便听听/.test(item) ||
+      (flag === 'roamComment' && /^##\s/.test(item))
+    ) {
       flag = 'roam';
       data.content.push({
         title: item.replace(/^##\s/, '').trim(),
@@ -96,7 +109,12 @@ function parseMd(options) {
         type: 'roam',
         index: `${data.content.length + 1}`.padStart(2, '0'),
       });
-    } else if (/^##\s播客新声/.test(item)) {
+    } else if (/^<!-- newbie -->/.test(item)) {
+      flag = 'newbieComment';
+    } else if (
+      /^##\s播客新声/.test(item) ||
+      (flag === 'newbieComment' && /^##\s/.test(item))
+    ) {
       flag = 'newbie';
       data.content.push({
         title: item.replace(/^##\s/, '').trim(),

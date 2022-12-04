@@ -1,6 +1,9 @@
 {
-  "[markdown]":{
+  "[markdown]": {
     "files.trimTrailingWhitespace": false,
   },
-  "gitlens.codeLens.enabled": false
+  "gitlens.codeLens.enabled": false,
+  "cSpell.words": [
+    "getpodcast"
+  ]
 }

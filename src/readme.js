@@ -1,3 +1,11 @@
+/*
+ * @Author: rpsh
+ * @Date: 2022-11-16 21:13:58
+ * @LastEditors: rpsh
+ * @LastEditTime: 2022-12-04 23:55:29
+ * @FilePath: /letter.getpodcast.xyz/src/readme.js
+ * @Description: 生成 README.md
+ */
 const fs = require('fs');
 const path = require('path');
 
@@ -45,7 +53,7 @@ function generateReadmeMd(vols) {
 function start() {
   const vols = getVols();
   const mdText = generateReadmeMd(vols);
-  fs.writeFileSync(`./Readme.md`, mdText, 'utf8');
+  fs.writeFileSync(`./README.md`, mdText, 'utf8');
 }
 
 start();
