@@ -109,3 +109,4 @@ dist
 # no lock file
 package-lock.json
 yarn-lock.log
+yarn.lock
